@@ -1,0 +1,61 @@
+# User-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Build results
+src/**/[Bb]in/
+src/**/[Oo]bj/
+src/.vs/
+build/
+wwwroot/
+
+# .NET Core
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+*_i.c
+*_p.c
+*_i.h
+*.ilk
+*.meta
+*.obj
+*.pch
+*.pdb
+*.pgc
+*.pgd
+*.rsp
+*.sbr
+*.tlb
+*.tli
+*.tlh
+*.tmp
+*.tmp_proj
+*.log
+*.vspscc
+*.vssscc
+.builds
+*.pidb
+*.svclog
+*.scc
+*.ide
+
+# Visual Studio profiler
+*.psess
+*.vsp
+*.vspx
+*.sap
+
+applicationhost.config
+
+# ReSharper is a .NET coding add-in
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.DotSettings.user
+/.vs
+/tools/Addins
+
+# MS Office temporary files
+~$*
