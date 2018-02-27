@@ -19,5 +19,10 @@ namespace Logging.ConsoleApp
         {
             
         }
+
+        public void Dispose()
+        {
+
+        }
     }
 }

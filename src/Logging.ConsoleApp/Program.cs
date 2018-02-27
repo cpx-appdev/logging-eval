@@ -14,31 +14,33 @@ namespace Logging.ConsoleApp
         }
 
         async Task Run()
-        { 
-            var logger = new DummyLogger();
-
+        {
             var sw = Stopwatch.StartNew();
-            for (int i = 0; i < 50000; i++)
+            using (var logger = new DummyLogger())
             {
-                logger.SetCorrelationId(Guid.NewGuid());
-
-                var invoice = new ProcessedInvoice();
-                invoice.Id = i;
-                invoice.InvoiceDate = DateTimeOffset.Now;
-                invoice.Orders = new List<Order>
+                for (int i = 0; i < 50000; i++)
                 {
-                    new Order {Id = -i, AuthorizationId = "blub"}
-                };
+                    logger.SetCorrelationId(Guid.NewGuid());
 
-                await logger.Info("Erste Meldung", invoice);
-                await logger.Info("Zweite Meldung", invoice.Orders.ToArray()[0]);
+                    var invoice = new ProcessedInvoice();
+                    invoice.Id = i;
+                    invoice.InvoiceDate = DateTimeOffset.Now;
+                    invoice.Orders = new List<Order>
+                    {
+                        new Order {Id = -i, AuthorizationId = "blub"}
+                    };
+
+                    await logger.Info("Erste Meldung", invoice);
+                    await logger.Info("Zweite Meldung", invoice.Orders.ToArray()[0]);
+                }
+
+                
             }
-
             Console.WriteLine(sw.Elapsed);
         }
     }
 
-    public interface ILogger
+    public interface ILogger : IDisposable
     {
         void SetCorrelationId(Guid id);
         Task Info(string msg, object extraData = null);
