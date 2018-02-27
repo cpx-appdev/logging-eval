@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Logging.ConsoleApp
+namespace ConsoleApp7
 {
     class Program
     {
@@ -16,9 +16,10 @@ namespace Logging.ConsoleApp
         async Task Run()
         {
             var sw = Stopwatch.StartNew();
-            using (var logger = new DummyLogger())
+
+            using (var logger = new ElasticLogger())
             {
-                for (int i = 0; i < 50000; i++)
+                for (int i = 0; i < 5000; i++)
                 {
                     logger.SetCorrelationId(Guid.NewGuid());
 
@@ -27,16 +28,16 @@ namespace Logging.ConsoleApp
                     invoice.InvoiceDate = DateTimeOffset.Now;
                     invoice.Orders = new List<Order>
                     {
-                        new Order {Id = -i, AuthorizationId = "blub"}
+                        new Order {Id = -i, AuthorizationId = "blub"},
+                        new Order {Id = -i*2, AuthorizationId = "blub2"}
                     };
 
-                    await logger.Info("Erste Meldung", invoice);
-                    await logger.Info("Zweite Meldung", invoice.Orders.ToArray()[0]);
+                    await logger.Info("{@invoice} erstellt", invoice);
+                    await logger.Info("Enthält eine {@order}", invoice.Orders.ToArray()[0]);
                 }
-
-                
+                Console.WriteLine(sw.Elapsed);
             }
-            Console.WriteLine(sw.Elapsed);
+            
         }
     }
 
